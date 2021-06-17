@@ -12,7 +12,6 @@ export default {
   },
   mounted() {
     this.observer = new IntersectionObserver(([entry]) => {
-      // only get the first parameter
       if (entry && entry.isIntersecting) {
         this.$emit('intersect');
       }
