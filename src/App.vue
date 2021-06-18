@@ -1,24 +1,37 @@
 <template>
   <div id="app">
-    <ShowComments :episodes="items" ref="test" />
-    <TheObserver @intersect="loadAutoscroll" />
+    <!-- <ShowComments :episodes="items" ref="test" /> -->
+    <div
+      class="container"
+      ref="containerRef"
+      :style="{ transition: `linear ${speed}s` }"
+    >
+      <div v-for="(item, index) in items" v-bind="item" :key="index">
+        <h1>{{ item.name }}</h1>
+        <h2>{{ item.id }}</h2>
+        <p>{{ item.body }}</p>
+        <p>speed: {{ speed }}</p>
+      </div>
+    </div>
+    <TheObserver @intersect="onIntersect" />
   </div>
 </template>
 
 <script>
-import ShowComments from './components/ShowComments.vue';
+// import ShowComments from './components/ShowComments.vue';
 import TheObserver from './components/TheObserver.vue';
 export default {
   name: 'App',
   components: {
     TheObserver,
-    ShowComments,
+    // ShowComments,
   },
   data() {
     return {
       timerId: null,
       items: [],
       episodeCount: 0,
+      speed: 10,
       episodes: [
         {
           id: 1,
@@ -40,34 +53,63 @@ export default {
     };
   },
   methods: {
-    loadAutoscroll() {
-      for (let i = 0; i < 10; i++) {
-        this.items = this.items.concat(this.episodes);
-      }
-      console.log(this.items);
-      // console.log(this.episodeCount);
-      // this.episodeCount++;
-      // if (this.episodeCount > 2) {
-      //   this.items = [...this.episodes];
-      //   this.episodeCount = 0;
+    // resetArray() {
+    //   this.items = [].concat(this.episodes);
+    // },
+    handleScroll() {
+      console.log('scroll');
+    },
+    onIntersect() {
+      console.log('intersect');
+      this.items = this.items.concat(this.episodes);
+      // for (let i = 0; i < 3; i++) {
+      //   this.items = this.items.concat(this.episodes);
       // }
+      const innerHeight = this.$refs.containerRef.offsetHeight;
+      this.$refs.containerRef.style.marginTop = `-${innerHeight}px`;
+      // this.items = this.items.slice(1);
     },
-    pageScroll() {
-      // window.scrollBy({
-      //   top: 300,
-      //   behavior: 'smooth',
-      // });
-      // let scroll = window.devicePixelRatio;
+    // loadAutoscroll() {
+    //   this.items = this.items.concat(this.episodes);
+    //   // for (let i = 0; i < 1; i++) {
+    //   //   this.items = this.items.concat(this.episodes);
+    //   // }
+    //   // console.log(this.episodes);
+    //   // if (this.items.length > 10) {
+    //   //   this.items = this.episodes;
+    //   // }
 
-      window.scrollBy(0, 2);
-      // console.log(window.scrollY);
-    },
+    //   console.log(this.$refs.containerRef.offsetHeight);
+
+    //   // const innerHeight = this.$refs.containerRef.offsetHeight;
+    //   // this.$refs.containerRef.style.marginTop = `-${innerHeight}px`;
+
+    //   // console.log(this.episodeCount);
+    //   // this.episodeCount++;
+    //   // if (this.episodeCount > 2) {
+    //   //   this.items = [...this.episodes];
+    //   //   this.episodeCount = 0;
+    //   // }
+    // },
+    // pageScroll() {
+    // console.log(this.$refs.containerRef.offsetHeight);
+    // let scroll = window.devicePixelRatio;
+    // window.scrollBy(0, 3);
+    // console.log(window.scrollY);
+    // },
   },
   mounted() {
-    this.timerId = setInterval(() => this.pageScroll(), 22);
+    this.items = [].concat(this.episodes);
+    // const innerHeight = this.$refs.containerRef.offsetHeight;
+    this.$refs.containerRef.style.marginTop = `-100px`;
+    // this.resetArray();
+  },
+
+  created() {
+    window.addEventListener('scroll', this.handleScroll);
   },
   destroyed() {
-    clearInterval(this.timerId);
+    window.removeEventListener('scroll', this.handleScroll);
   },
 };
 </script>
