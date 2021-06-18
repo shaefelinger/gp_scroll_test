@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div
       class="comments"
       v-for="(item, index) in episodes"
@@ -22,4 +22,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.container {
+  background: green;
+  transition: linear 8s;
+}
+</style>
