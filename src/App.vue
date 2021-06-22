@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- <ShowComments :episodes="items" ref="test" /> -->
     <div
       class="container"
       ref="containerRef"
@@ -18,13 +17,11 @@
 </template>
 
 <script>
-// import ShowComments from './components/ShowComments.vue';
 import TheObserver from './components/TheObserver.vue';
 export default {
   name: 'App',
   components: {
     TheObserver,
-    // ShowComments,
   },
   data() {
     return {
@@ -53,9 +50,6 @@ export default {
     };
   },
   methods: {
-    // resetArray() {
-    //   this.items = [].concat(this.episodes);
-    // },
     handleScroll() {
       console.log('scroll');
     },
@@ -67,7 +61,6 @@ export default {
       // }
       const innerHeight = this.$refs.containerRef.offsetHeight;
       this.$refs.containerRef.style.marginTop = `-${innerHeight}px`;
-      // this.items = this.items.slice(1);
     },
     // loadAutoscroll() {
     //   this.items = this.items.concat(this.episodes);
